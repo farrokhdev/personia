@@ -1,0 +1,6 @@
+.DS_Store
+/coverage
+/.nyc_output
+/.idea
+/.vscode
+/.parcel-cache

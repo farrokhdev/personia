@@ -1,0 +1,105 @@
+stages:
+  - build_main
+  - deploy_main
+  - build_stage
+  - deploy_stage
+
+###########################################
+# Install dependencies and build to PROD #
+###########################################
+build_main:
+  stage: build_main
+  cache:
+    paths:
+      - node_modules
+  image: node:20
+  variables:
+    REACT_APP_CERAMIC_SERVER: $MAIN_REACT_APP_CERAMIC_SERVER
+    REACT_APP_CERAMIC_ENV: $MAIN_REACT_APP_CERAMIC_ENV
+    REACT_APP_API_BASE_URL: $MAIN_REACT_APP_API_BASE_URL
+    REACT_APP_API_BASE_URL_SOCKET: $MAIN_REACT_APP_API_BASE_URL_SOCKET
+  before_script:
+    - npm ci
+    - bash ./generate.env.sh main
+  script:
+    - npm run build
+  artifacts:
+    paths:
+      - node_modules/
+      - build/
+  only:
+    - main
+
+#####################################
+# Deploy to PROD Elastic Beanstalk #
+#####################################
+deploy_main:
+  stage: deploy_main
+  image: python:3.7
+  dependencies:
+    - build_main
+  variables:
+    REACT_APP_CERAMIC_SERVER: $MAIN_REACT_APP_CERAMIC_SERVER
+    REACT_APP_CERAMIC_ENV: $MAIN_REACT_APP_CERAMIC_ENV
+    REACT_APP_API_BASE_URL: $MAIN_REACT_APP_API_BASE_URL
+    REACT_APP_API_BASE_URL_SOCKET: $MAIN_REACT_APP_API_BASE_URL_SOCKET
+  before_script:
+    - bash ./generate.env.sh main
+    - pip install awsebcli --upgrade
+  script:
+    - ls -a
+    - eb init $MAIN_EB_APP_NAME --region $MAIN_AWS_REGION --platform Node.js
+    - eb use $MAIN_EB_ENV_NAME
+    - eb deploy
+  only:
+    - main
+
+###########################################
+# Install dependencies and build to STAGE #
+###########################################
+build_stage:
+  stage: build_stage
+  cache:
+    paths:
+      - node_modules
+  image: node:20
+  variables:
+    REACT_APP_CERAMIC_SERVER: $STAGE_REACT_APP_CERAMIC_SERVER
+    REACT_APP_CERAMIC_ENV: $STAGE_REACT_APP_CERAMIC_ENV
+    REACT_APP_API_BASE_URL: $STAGE_REACT_APP_API_BASE_URL
+    REACT_APP_API_BASE_URL_SOCKET: $STAGE_REACT_APP_API_BASE_URL_SOCKET
+  before_script:
+    - npm ci
+    - bash ./generate.env.sh stage
+  script:
+    - npm run build
+  artifacts:
+    paths:
+      - node_modules/
+      - build/
+  only:
+    - stage
+
+#####################################
+# Deploy to STAGE Elastic Beanstalk #
+#####################################
+deploy_stage:
+  stage: deploy_stage
+  image: python:3.7
+  dependencies:
+    - build_stage
+  variables:
+    REACT_APP_CERAMIC_SERVER: $STAGE_REACT_APP_CERAMIC_SERVER
+    REACT_APP_CERAMIC_ENV: $STAGE_REACT_APP_CERAMIC_ENV
+    REACT_APP_API_BASE_URL: $STAGE_REACT_APP_API_BASE_URL
+    REACT_APP_API_BASE_URL_SOCKET: $STAGE_REACT_APP_API_BASE_URL_SOCKET
+  before_script:
+    - bash ./generate.env.sh stage
+    - pip install awsebcli --upgrade
+  script:
+    - ls -a
+    - eb init $STAGE_EB_APP_NAME --region $STAGE_AWS_REGION --platform Node.js
+    - eb use $STAGE_EB_ENV_NAME
+    - eb deploy
+  only:
+    - stage

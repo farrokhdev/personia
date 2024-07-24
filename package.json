@@ -1,0 +1,168 @@
+{
+  "name": "personia",
+  "version": "0.2.6",
+  "private": true,
+  "dependencies": {
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@fontsource/roboto": "^5.0.2",
+    "@monerium/sdk": "^2.10.0",
+    "@mui/icons-material": "^5.15.0",
+    "@mui/material": "^5.13.4",
+    "@mui/styled-engine-sc": "^5.12.0",
+    "@mui/x-date-pickers": "^6.10.1",
+    "@reduxjs/toolkit": "^1.9.5",
+    "@types/axios": "^0.14.0",
+    "@types/node": "^16.18.25",
+    "@types/react": "^18.2.5",
+    "@types/react-dom": "^18.2.3",
+    "@types/react-loader-spinner": "^4.0.0",
+    "@types/react-tag-input": "^6.6.4",
+    "@types/recordrtc": "^5.6.14",
+    "assert": "^2.1.0",
+    "axios": "^1.6.7",
+    "blob-to-buffer": "^1.2.9",
+    "browserify-zlib": "^0.2.0",
+    "cropperjs": "^1.5.13",
+    "cross-env": "^7.0.3",
+    "dayjs": "^1.11.8",
+    "emoji-picker-react": "^4.5.15",
+    "ethers": "^6.11.1",
+    "ethr-did": "^3.0.10",
+    "https-browserify": "^1.0.0",
+    "husky": "^8.0.3",
+    "ipfs-http-client": "^60.0.0",
+    "javascript-time-ago": "^2.5.9",
+    "key-did-provider-ed25519": "^4.0.2",
+    "key-did-resolver": "^4.0.0",
+    "localforage": "^1.10.0",
+    "lodash": "^4.17.21",
+    "moment": "^2.30.1",
+    "moment-timezone": "^0.5.45",
+    "mprocs": "^0.6.4",
+    "nodemon": "^3.0.2",
+    "parcel": "^2.10.3",
+    "patch-package": "^7.0.0",
+    "postcss": "^8.4.31",
+    "prettier": "^2.7.1",
+    "process": "^0.11.10",
+    "qrcode.react": "^3.1.0",
+    "querystring-es3": "^0.2.1",
+    "quill-blot-formatter": "^1.0.5",
+    "quill-image-resize-module-react": "^3.0.0",
+    "quill-image-uploader": "^1.3.0",
+    "react": "^18.2.0",
+    "react-app-rewired": "^2.2.1",
+    "react-device-detect": "^2.2.3",
+    "react-dom": "^18.2.0",
+    "react-dropzone": "^14.2.3",
+    "react-hook-form": "^7.44.3",
+    "react-image": "^4.1.0",
+    "react-loader-spinner": "^5.3.4",
+    "react-markdown": "^9.0.1",
+    "react-number-format": "^5.2.2",
+    "react-qrcode-logo": "^3.0.0",
+    "react-quill": "^2.0.0",
+    "react-redux": "^8.0.5",
+    "react-router-dom": "^6.11.1",
+    "react-scripts": "5.0.1",
+    "react-syntax-highlighter": "^15.5.0",
+    "react-tag-input": "^6.8.1",
+    "react-time-ago": "^7.2.1",
+    "react-timer-hook": "^3.0.7",
+    "react-tiny-link": "^3.6.1",
+    "react-youtube": "^10.1.0",
+    "recordrtc": "^5.6.2",
+    "remark-gfm": "^4.0.0",
+    "sass": "^1.69.5",
+    "sdp": "^3.2.0",
+    "secure-file-transfer": "^0.0.8",
+    "serve": "^14.2.1",
+    "socket.io-client": "^4.7.5",
+    "source-map-explorer": "^2.5.3",
+    "stream": "^0.0.2",
+    "stream-browserify": "^3.0.0",
+    "stream-http": "^3.2.0",
+    "styled-components": "^5.3.11",
+    "super-image-cropper": "^1.0.18",
+    "trystero": "^0.15.0",
+    "typescript": "^4.9.5",
+    "url": "^0.11.3",
+    "util": "^0.12.5",
+    "uuid": "^9.0.0",
+    "validator": "^13.9.0",
+    "web-vitals": "^2.1.4",
+    "web3": "^1.10.0",
+    "webm-duration-fix": "^1.0.4",
+    "webtorrent": "^2.1.32"
+  },
+  "scripts": {
+    "analyze": "source-map-explorer 'build/static/js/*.js'",
+    "start": "cross-env react-app-rewired start",
+    "start:tracker": "bittorrent-tracker",
+    "start:streamsaver": "serve -p 3015 node_modules/streamsaver",
+    "dev": "mprocs \"npx cross-env REACT_APP_TRACKER_URL=\"ws://localhost:8000\" REACT_APP_STREAMSAVER_URL=\"http://localhost:3015/mitm.html\" npm run start\" \"npm run start:tracker\" \"npm run start:streamsaver\"",
+    "build": "npm run build:app && npm run build:sdk",
+    "build:app": "cross-env react-app-rewired build",
+    "build:sdk": "parcel build sdk/sdk.ts --dist-dir build --no-content-hash",
+    "build:sdk:watch": "nodemon --exec \"npm run build:sdk\"",
+    "test": "react-scripts test",
+    "prepare": "husky install",
+    "prettier": "prettier 'src/**/*.js' --write",
+    "lint": "eslint src --max-warnings=0"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      "chrome >= 67",
+      "edge >= 79",
+      "firefox >= 68",
+      "opera >= 54",
+      "safari >= 14"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@types/blob-to-buffer": "^1.2.0",
+    "@types/lodash": "^4.14.195",
+    "@types/styled-components": "^5.1.26",
+    "@types/uuid": "^9.0.1",
+    "@types/validator": "^13.7.17",
+    "@typescript-eslint/eslint-plugin": "^5.59.2",
+    "@typescript-eslint/parser": "^5.59.2",
+    "eslint": "^8.39.0",
+    "prettier": "^2.8.8"
+  },
+  "overrides": {
+    "ipfs-core": "npm:dry-uninstall",
+    "@svgr/plugin-svgo": {
+      "nth-check": "2.0.1"
+    },
+    "react-file-reader-input": {
+      "react": "$react",
+      "react-dom": "$react-dom"
+    },
+    "resolve-url-loader": {
+      "postcss": "8.4.31"
+    }
+  },
+  "jest": {
+    "transformIgnorePatterns": [
+      "node_modules/(?!trystero)/"
+    ]
+  },
+  "browser": {
+    "fs": false,
+    "path": false,
+    "os": false
+  }
+}

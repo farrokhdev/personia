@@ -1,0 +1,29 @@
+diff --git a/node_modules/@orbisclub/orbis-sdk/utils/lit-helpers.js b/node_modules/@orbisclub/orbis-sdk/utils/lit-helpers.js
+index b3cbd1b..7e70589 100644
+--- a/node_modules/@orbisclub/orbis-sdk/utils/lit-helpers.js
++++ b/node_modules/@orbisclub/orbis-sdk/utils/lit-helpers.js
+@@ -219,9 +219,9 @@ export async function decryptString(encryptedContent, chain, store, forcedAuthSi
+       /** Get encryption key from Lit */
+       try {
+         decryptedSymmKey = await lit.getEncryptionKey({
+-          accessControlConditions: _access,
++          unifiedAccessControlConditions: _access,
+           toDecrypt: encryptedContent.encryptedSymmetricKey,
+-          chain: "ethereum",
++          chain: "mumbai",
+           authSig
+         })
+       } catch(e) {
+@@ -405,10 +405,10 @@ export async function encryptString(body, chain = "ethereum", controlConditions)
+     case "ethereum":
+       try {
+         encryptedSymmetricKey = await lit.saveEncryptionKey({
+-          accessControlConditions: controlConditions,
++          unifiedAccessControlConditions: controlConditions,
+           symmetricKey: symmetricKey,
+           authSig: evmEmptyAuthSig,
+-          chain: "ethereum"
++          chain: "mumbai"
+         });
+       } catch(e) {
+         console.log("Error encrypting string with Lit for EVM: ", e);
